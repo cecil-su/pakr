@@ -119,7 +119,7 @@ impl Config {
                 keep: cli
                     .keep
                     .or(file_config.cleanup.as_ref().and_then(|c| c.keep))
-                    .unwrap_or(1),
+                    .unwrap_or(0),
             },
             env: cli.env,
             dry_run: cli.dry_run,
@@ -135,9 +135,6 @@ impl Config {
         }
         if self.separator.is_empty() {
             bail!("separator must not be empty");
-        }
-        if self.cleanup.keep < 1 {
-            bail!("keep must be at least 1");
         }
 
         // 检查 date_format 是否会生成含非法字符的文件名
@@ -198,7 +195,7 @@ mod tests {
         assert_eq!(config.output, ".");
         assert!(!config.cleanup.enabled);
         assert_eq!(config.cleanup.mode, CleanMode::Current);
-        assert_eq!(config.cleanup.keep, 1);
+        assert_eq!(config.cleanup.keep, 0);
         // prefix 应该是当前目录名，不为空
         assert!(!config.prefix.is_empty());
     }
@@ -319,14 +316,6 @@ mod tests {
         let result = config.validate();
         assert!(result.is_err());
         assert!(result.unwrap_err().to_string().contains("separator must not be empty"));
-    }
-
-    #[test]
-    fn test_validate_keep_zero() {
-        let config = make_config(|c| c.cleanup.keep = 0);
-        let result = config.validate();
-        assert!(result.is_err());
-        assert!(result.unwrap_err().to_string().contains("keep must be at least 1"));
     }
 
     #[test]

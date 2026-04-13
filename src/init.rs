@@ -30,8 +30,8 @@ prefix = "{prefix}"
 enabled = false
 # 清理模式: "all" = 删除所有旧包, "current" = 仅清理指定环境的旧包
 mode = "current"
-# 保留最新的 N 个包（仅 current 模式生效，最小值 1）
-keep = 1
+# 额外保留最新的 N 个旧包（仅 current 模式生效，0 = 只保留刚生成的）
+keep = 0
 "#
     )
 }
