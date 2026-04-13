@@ -54,6 +54,14 @@ pub struct PackArgs {
     /// 跳过自动清理
     #[arg(long)]
     pub no_clean: bool,
+
+    /// 启用自动清理
+    #[arg(long)]
+    pub cleanup: bool,
+
+    /// 保留最新 N 个包
+    #[arg(long)]
+    pub keep: Option<usize>,
 }
 
 #[derive(Parser, Debug)]

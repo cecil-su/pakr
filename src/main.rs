@@ -19,6 +19,8 @@ fn main() -> Result<()> {
         separator: None,
         date_format: None,
         no_clean: false,
+        cleanup: false,
+        keep: None,
     }));
 
     match command {
@@ -33,9 +35,9 @@ fn main() -> Result<()> {
                 dry_run,
                 no_clean: args.no_clean,
                 force: false,
-                keep: None,
+                keep: args.keep,
                 mode: None,
-                cleanup_enabled: None,
+                cleanup_enabled: if args.cleanup { Some(true) } else { None },
             };
             let config = config::Config::load(cli_args, &config_path)?;
             let warnings = config.validate()?;
